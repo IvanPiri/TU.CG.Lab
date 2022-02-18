@@ -1,7 +1,7 @@
 #pragma once
 
-struct GLFWwindow;
 class Application;
+struct GLFWwindow;
 
 namespace Utils
 {
@@ -9,10 +9,18 @@ namespace Utils
 	{
 	private:
 		GLFWwindow* window;
-		unsigned width;
-		unsigned height;
 
-		static void FramebufferSizeCallback(GLFWwindow* window, int initialWidth, int initialHeight);
+		static void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
+		static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+		static void CursorPosCallback(GLFWwindow* window, double x, double y);
+		static void ScrollCallback(GLFWwindow* window, double x, double y);
+
+		static const char* GetUserPointerNullErrorMessage()
+		{
+			return "GLFW user data pointer cannot be a nullptr.";
+		}
+
 	public:
 		Window(const char* title, unsigned width, unsigned height);
 		Window(const Window& other) = delete;
@@ -30,7 +38,7 @@ namespace Utils
 
 		[[nodiscard]] float GetElapsedTime() const;
 
-		[[nodiscard]] unsigned GetWidth() const { return width; }
-		[[nodiscard]] unsigned GetHeight() const { return height; }
+		[[nodiscard]] unsigned GetWidth() const;
+		[[nodiscard]] unsigned GetHeight() const;
 	};
 }
