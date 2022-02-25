@@ -82,6 +82,38 @@ namespace Graphics
 		glUseProgram(0);
 	}
 
+	void ShaderProgram::SetBool(const std::string& name, const bool value) const
+	{
+		const int uniformLocation = GetUniformLocation(name);
+		glUniform1i(uniformLocation, value);
+	}
+
+	void ShaderProgram::SetInt(const std::string& name, const int value) const
+	{
+		const int uniformLocation = GetUniformLocation(name);
+		glUniform1i(uniformLocation, value);
+	}
+
+	void ShaderProgram::SetFloat(const std::string& name, const float value) const
+	{
+		const int uniformLocation = GetUniformLocation(name);
+		glUniform1f(uniformLocation, value);
+	}
+
+	void ShaderProgram::SetVec3f(
+		const std::string& name, const float x, const float y, const float z) const
+	{
+		const int uniformLocation = GetUniformLocation(name);
+		glUniform3f(uniformLocation, x, y, z);
+	}
+
+	void ShaderProgram::SetVec4f(
+		const std::string& name, const float x, const float y, const float z, const float w) const
+	{
+		const int uniformLocation = GetUniformLocation(name);
+		glUniform4f(uniformLocation, x, y, z, w);
+	}
+
 	std::string ShaderProgram::ReadShaderFile(const std::string& shaderPath)
 	{
 		std::ifstream shaderFile;
@@ -158,5 +190,20 @@ namespace Graphics
 	void ShaderProgram::Delete() const
 	{
 		glDeleteProgram(id);
+	}
+
+	int ShaderProgram::GetUniformLocation(const std::string& name) const
+	{
+		const int uniformLocation = glGetUniformLocation(id, name.c_str());
+
+		if (uniformLocation == -1)
+		{
+			const std::string errorMessage = "Uniform { " + name +
+				" } could not be found in the shader code. Is it unused?";
+
+			throw std::exception(errorMessage.c_str());
+		}
+
+		return uniformLocation;
 	}
 }

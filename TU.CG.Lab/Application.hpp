@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Graphics/ShaderProgram.hpp"
+#include "Graphics/VertexArray.hpp"
 #include "Input/InputManager.hpp"
 #include "Utils/Window.hpp"
 
@@ -12,8 +13,7 @@ private:
 	Input::InputManager inputManager;
 	std::unique_ptr<Utils::Window> window;
 	std::unique_ptr<Graphics::ShaderProgram> shaderProgram;
-
-	unsigned vaoId = 0, vboId = 0;
+	std::unique_ptr<Graphics::VertexArray> va;
 
 	void Initialize();
 	void LoadContent();

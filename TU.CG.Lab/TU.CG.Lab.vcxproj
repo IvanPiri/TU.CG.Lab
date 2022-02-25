@@ -177,20 +177,28 @@
   <ItemGroup>
     <ClCompile Include="..\deps\src\glad.c" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Graphics\ElementBuffer.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Utils\Constants.cpp" />
     <ClCompile Include="Utils\Window.cpp" />
+    <ClCompile Include="Graphics\VertexAttributeContainer.cpp" />
+    <ClCompile Include="Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="Graphics\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp" />
+    <ClInclude Include="Graphics\ElementBuffer.hpp" />
     <ClInclude Include="Input\InputManager.hpp" />
     <ClInclude Include="Input\Keys.hpp" />
     <ClInclude Include="Input\MouseButtons.hpp" />
     <ClInclude Include="Graphics\ShaderProgram.hpp" />
     <ClInclude Include="Utils\Constants.hpp" />
     <ClInclude Include="Utils\Window.hpp" />
+    <ClInclude Include="Graphics\VertexAttributeContainer.hpp" />
+    <ClInclude Include="Graphics\VertexBuffer.hpp" />
+    <ClInclude Include="Graphics\VertexArray.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Shaders\getting_started.frag" />

@@ -15,21 +15,23 @@ void Application::Initialize()
 
 	constexpr float vertices[] =
 	{
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f,
+		// positions         // colors
+		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+		 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,   // top
 	};
 
-	glGenVertexArrays(1, &vaoId);
-	glGenBuffers(1, &vboId);
+	va = std::make_unique<Graphics::VertexArray>();
+	auto vb = std::make_unique<Graphics::VertexBuffer>(vertices, sizeof vertices);
 
-	glBindVertexArray(vaoId);
+	vb->SetAttributes({
+		{"aPos", Graphics::VertexAttributeType::VEC3F},
+		{"aColor", Graphics::VertexAttributeType::VEC3F},
+	});
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof vertices, vertices, GL_STATIC_DRAW);
+	va->SetVertexBuffer(std::move(vb));
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-	glEnableVertexAttribArray(0);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void Application::LoadContent()
@@ -55,7 +57,11 @@ void Application::Render() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	shaderProgram->Use();
+	va->Bind();
+
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	va->Unbind();
 	shaderProgram->UnUse();
 }
 
@@ -78,9 +84,4 @@ void Application::Run()
 		window->SwapBuffers();
 		window->PollEvents();
 	}
-
-	glBindVertexArray(0);
-	glDeleteVertexArrays(1, &vaoId);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDeleteBuffers(1, &vboId);
 }
