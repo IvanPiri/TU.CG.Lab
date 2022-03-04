@@ -15,21 +15,32 @@ void Application::Initialize()
 
 	constexpr float vertices[] =
 	{
-		// positions         // colors
-		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-		 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,   // top
+		// positions          // colors           // texture coords
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f,   // top left
+	};
+
+	constexpr unsigned indices[] =
+	{
+		// note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3,   // second triangle
 	};
 
 	va = std::make_unique<Graphics::VertexArray>();
 	auto vb = std::make_unique<Graphics::VertexBuffer>(vertices, sizeof vertices);
+	auto eb = std::make_unique<Graphics::ElementBuffer>(indices, 6);
 
 	vb->SetAttributes({
 		{"aPos", Graphics::VertexAttributeType::VEC3F},
 		{"aColor", Graphics::VertexAttributeType::VEC3F},
+		{"aTexCoord", Graphics::VertexAttributeType::VEC2F},
 	});
 
 	va->SetVertexBuffer(std::move(vb));
+	va->SetElementBuffer(std::move(eb));
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
@@ -41,6 +52,29 @@ void Application::LoadContent()
 
 	shaderProgram = std::make_unique<Graphics::ShaderProgram>(
 		vertexShaderPath, fragmentShaderPath);
+
+	const std::string boxTexturePath = Utils::TEXTURE_PATH + "container.jpg";
+	const std::string faceTexturePath = Utils::TEXTURE_PATH + "awesomeface.png";
+
+	boxTexture = std::make_unique<Graphics::Texture>(
+		content.GetTexture(boxTexturePath));
+
+	faceTexture = std::make_unique<Graphics::Texture>(
+		content.GetTexture(faceTexturePath));
+
+	shaderProgram->Use();
+
+	shaderProgram->SetInt("texture1", 0);
+	shaderProgram->SetInt("texture2", 1);
+
+	shaderProgram->UnUse();
+}
+
+void Application::UnloadContent()
+{
+	va = nullptr;
+	shaderProgram = nullptr;
+	content.Clear();
 }
 
 void Application::Update(const float deltaTime)
@@ -56,10 +90,13 @@ void Application::Render() const
 	glClearColor(0.393f, 0.585f, 0.930f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	boxTexture->BindAndActivate(0);
+	faceTexture->BindAndActivate(1);
+
 	shaderProgram->Use();
 	va->Bind();
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 	va->Unbind();
 	shaderProgram->UnUse();
@@ -84,4 +121,6 @@ void Application::Run()
 		window->SwapBuffers();
 		window->PollEvents();
 	}
+
+	UnloadContent();
 }
