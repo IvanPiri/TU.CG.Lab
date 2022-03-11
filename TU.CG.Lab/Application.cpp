@@ -1,6 +1,8 @@
 #include "Application.hpp"
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "Utils/Constants.hpp"
 
@@ -15,11 +17,11 @@ void Application::Initialize()
 
 	constexpr float vertices[] =
 	{
-		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f,   // top left
+		// positions          // texture coords
+		 0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // top right
+		 0.5f, -0.5f, 0.0f,   1.0f, 0.0f,   // bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
+		-0.5f,  0.5f, 0.0f,   0.0f, 1.0f,   // top left
 	};
 
 	constexpr unsigned indices[] =
@@ -35,7 +37,6 @@ void Application::Initialize()
 
 	vb->SetAttributes({
 		{"aPos", Graphics::VertexAttributeType::VEC3F},
-		{"aColor", Graphics::VertexAttributeType::VEC3F},
 		{"aTexCoord", Graphics::VertexAttributeType::VEC2F},
 	});
 
@@ -93,7 +94,13 @@ void Application::Render() const
 	boxTexture->BindAndActivate(0);
 	faceTexture->BindAndActivate(1);
 
+	glm::mat4 trans = glm::mat4(1.0f);
+	trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+	trans = glm::rotate(trans, window->GetElapsedTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+
 	shaderProgram->Use();
+	shaderProgram->SetMat4f("transform", trans);
+
 	va->Bind();
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

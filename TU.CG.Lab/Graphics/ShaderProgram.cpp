@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Graphics
 {
@@ -100,18 +101,22 @@ namespace Graphics
 		glUniform1f(uniformLocation, value);
 	}
 
-	void ShaderProgram::SetVec3f(
-		const std::string& name, const float x, const float y, const float z) const
+	void ShaderProgram::SetVec3f(const std::string& name, const glm::vec3 value) const
 	{
 		const int uniformLocation = GetUniformLocation(name);
-		glUniform3f(uniformLocation, x, y, z);
+		glUniform3f(uniformLocation, value.x, value.y, value.z);
 	}
 
-	void ShaderProgram::SetVec4f(
-		const std::string& name, const float x, const float y, const float z, const float w) const
+	void ShaderProgram::SetVec4f(const std::string& name, const glm::vec4 value) const
 	{
 		const int uniformLocation = GetUniformLocation(name);
-		glUniform4f(uniformLocation, x, y, z, w);
+		glUniform4f(uniformLocation, value.x, value.y, value.z, value.w);
+	}
+
+	void ShaderProgram::SetMat4f(const std::string& name, const glm::mat4 value) const
+	{
+		const int uniformLocation = GetUniformLocation(name);
+		glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 	}
 
 	std::string ShaderProgram::ReadShaderFile(const std::string& shaderPath)
