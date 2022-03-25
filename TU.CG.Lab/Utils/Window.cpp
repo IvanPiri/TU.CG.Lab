@@ -25,7 +25,9 @@ namespace Utils
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-		window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+		window = glfwCreateWindow(
+			static_cast<int>(width), static_cast<int>(height),
+			title, nullptr, nullptr);
 
 		if (window == nullptr)
 		{
@@ -41,7 +43,9 @@ namespace Utils
 			throw std::exception("Failed to initialize GLAD.");
 		}
 
-		glViewport(0, 0, width, height);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+		glViewport(0, 0, static_cast<int>(width), static_cast<int>(height));
 	}
 
 	Window::~Window()
@@ -85,22 +89,13 @@ namespace Utils
 		return static_cast<float>(glfwGetTime());
 	}
 
-	unsigned Window::GetWidth() const
+	glm::vec2 Window::GetSize() const
 	{
 		int width;
 		int height;
 		glfwGetWindowSize(window, &width, &height);
 
-		return width;
-	}
-
-	unsigned Window::GetHeight() const
-	{
-		int width;
-		int height;
-		glfwGetWindowSize(window, &width, &height);
-
-		return height;
+		return glm::vec2(width, height);
 	}
 
 	void Window::FramebufferSizeCallback(
@@ -181,8 +176,7 @@ namespace Utils
 
 		const auto app = static_cast<Application*>(userDataPointer);
 
-		app->GetInputManager().SetMousePosition(
-			static_cast<float>(x), static_cast<float>(y));
+		app->GetInputManager().SetMousePosition(glm::vec2(x, y));
 	}
 
 	void Window::ScrollCallback(GLFWwindow* window, double x, const double y)

@@ -6,6 +6,7 @@
 #include "Graphics/Texture.hpp"
 #include "Graphics/VertexArray.hpp"
 #include "Input/InputManager.hpp"
+#include "Utils/Camera.hpp"
 #include "Utils/ContentManager.hpp"
 #include "Utils/Window.hpp"
 
@@ -15,6 +16,7 @@ private:
 	Input::InputManager inputManager;
 	Utils::ContentManager content;
 
+	std::unique_ptr<Utils::Camera> camera;
 	std::unique_ptr<Utils::Window> window;
 	std::unique_ptr<Graphics::ShaderProgram> shaderProgram;
 	std::unique_ptr<Graphics::VertexArray> va;

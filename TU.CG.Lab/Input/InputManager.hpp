@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <unordered_map>
 
 #include "Keys.hpp"
@@ -13,8 +14,7 @@ namespace Input
 		std::unordered_map<Keys, bool> keyMap;
 		std::unordered_map<MouseButtons, bool> buttonMap;
 
-		float mousePosX = 0.0f;
-		float mousePosY = 0.0f;
+		glm::vec2 cursorPosition = glm::vec2(0.0f);
 		float scrollWheelValue = 0.0f;
 	public:
 		void PressKey(Keys key);
@@ -27,16 +27,14 @@ namespace Input
 		bool IsButtonDown(MouseButtons button);
 		// TODO: IsKeyPressed, IsButtonPressed
 
-		void SetMousePosition(const float x, const float y)
+		void SetMousePosition(const glm::vec2 pos)
 		{
-			mousePosX = x;
-			mousePosY = y;
+			cursorPosition = pos;
 		}
 
 		void ResetState();
 
-		[[nodiscard]] float GetMouseX() const { return mousePosX; }
-		[[nodiscard]] float GetMouseY() const { return mousePosY; }
+		[[nodiscard]] glm::vec2 GetCursorPosition() const { return cursorPosition; }
 		[[nodiscard]] float GetScrollValue() const { return scrollWheelValue; }
 	};
 }

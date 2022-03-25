@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 class Application;
 struct GLFWwindow;
 
@@ -38,7 +40,6 @@ namespace Utils
 
 		[[nodiscard]] float GetElapsedTime() const;
 
-		[[nodiscard]] unsigned GetWidth() const;
-		[[nodiscard]] unsigned GetHeight() const;
+		[[nodiscard]] glm::vec2 GetSize() const;
 	};
 }

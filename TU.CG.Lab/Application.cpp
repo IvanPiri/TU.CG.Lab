@@ -15,6 +15,9 @@ void Application::Initialize()
 {
 	window->ActivateInputFor(this);
 
+	camera = std::make_unique<Utils::Camera>(
+		glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), 45.0f);
+
 	constexpr float vertices[] =
 	{
 		// positions          // texture coords
@@ -112,6 +115,8 @@ void Application::Update(const float deltaTime)
 	if (inputManager.IsKeyDown(Input::Keys::ESCAPE))
 		window->SetShouldClose(true);
 
+	camera->Update(deltaTime, inputManager);
+
 	inputManager.ResetState();
 }
 
@@ -141,12 +146,9 @@ void Application::Render() const
 		glm::vec3(-1.3f,  1.0f, -1.5f),
 	};
 
-	glm::mat4 view(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
+	const glm::mat4 view = camera->GetViewMatrix();
 	const glm::mat4 projection = glm::perspective(
-		glm::radians(45.0f),
-		static_cast<float>(window->GetWidth()) / static_cast<float>(window->GetHeight()),
+		glm::radians(camera->zoom), window->GetSize().x / window->GetSize().y,
 		0.1f, 100.0f);
 
 	shaderProgram->SetMat4f("view", view);
