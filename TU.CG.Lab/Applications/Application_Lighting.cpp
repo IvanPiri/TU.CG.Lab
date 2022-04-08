@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 #include <string>
 
 #include "../Utils/Constants.hpp"
@@ -24,48 +25,48 @@ namespace Applications
 
 		constexpr float objectVertices[] =
 		{
-			// positions          // texture coords
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-			0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+			// positions          // normals           // texture coords
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+			-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+			 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
 		};
 
 		constexpr float lightVertices[] =
@@ -120,6 +121,7 @@ namespace Applications
 
 		vb->SetAttributes({
 			{"aPos", Graphics::VertexAttributeType::VEC3F},
+			{"aNormal", Graphics::VertexAttributeType::VEC3F},
 			{"aTexCoord", Graphics::VertexAttributeType::VEC2F},
 		});
 
@@ -153,6 +155,7 @@ namespace Applications
 
 		shaderProgram->SetVec3f("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
 		shaderProgram->SetVec3f("lightColor", lightColor);
+		shaderProgram->SetVec3f("lightPos", lightPos);
 
 		shaderProgram->UnUse();
 
@@ -203,10 +206,13 @@ namespace Applications
 			glm::radians(camera->zoom),
 			window->GetSize().x / window->GetSize().y,
 			0.1f, 100.0f);
+		const glm::mat3 normal = glm::inverseTranspose(glm::mat3(model));
 
 		shaderProgram->SetMat4f("model", model);
 		shaderProgram->SetMat4f("view", view);
 		shaderProgram->SetMat4f("projection", projection);
+		shaderProgram->SetMat3f("normal", normal);
+		shaderProgram->SetVec3f("viewPos", camera->position);
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
