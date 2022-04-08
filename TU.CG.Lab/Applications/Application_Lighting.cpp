@@ -143,7 +143,7 @@ namespace Applications
 
 	void Application_Lighting::LoadContent()
 	{
-		constexpr glm::vec3 lightColor(1.0f);
+		//constexpr glm::vec3 lightColor(1.0f);
 
 		const std::string vertexShaderPath = Utils::SHADER_PATH + "lighting.vert";
 		const std::string fragmentShaderPath = Utils::SHADER_PATH + "lighting.frag";
@@ -153,9 +153,15 @@ namespace Applications
 
 		shaderProgram->Use();
 
-		shaderProgram->SetVec3f("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-		shaderProgram->SetVec3f("lightColor", lightColor);
-		shaderProgram->SetVec3f("lightPos", lightPos);
+		shaderProgram->SetVec3f("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+		shaderProgram->SetVec3f("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+		shaderProgram->SetVec3f("material.specular", glm::vec3(0.5f));
+		shaderProgram->SetFloat("material.shininess", 32.0f);
+
+		//shaderProgram->SetVec3f("light.ambient", glm::vec3(0.2f));
+		//shaderProgram->SetVec3f("light.diffuse", glm::vec3(0.5f));
+		shaderProgram->SetVec3f("light.specular", glm::vec3(1.0f));
+		shaderProgram->SetVec3f("light.position", lightPos);
 
 		shaderProgram->UnUse();
 
@@ -165,11 +171,11 @@ namespace Applications
 		lightShaderProgram = std::make_unique<Graphics::ShaderProgram>(
 			lightVertexShaderPath, lightFragmentShaderPath);
 
-		lightShaderProgram->Use();
+		//lightShaderProgram->Use();
 
-		lightShaderProgram->SetVec3f("lightColor", lightColor);
+		//lightShaderProgram->SetVec3f("lightColor", lightColor);
 
-		lightShaderProgram->UnUse();
+		//lightShaderProgram->UnUse();
 	}
 
 	void Application_Lighting::UnloadContent()
@@ -196,8 +202,19 @@ namespace Applications
 		glClearColor(0.393f, 0.585f, 0.930f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		glm::vec3 lightColor;
+		lightColor.x = sin(window->GetElapsedTime() * 2.0f);
+		lightColor.y = sin(window->GetElapsedTime() * 0.7f);
+		lightColor.z = sin(window->GetElapsedTime() * 1.3f);
+
+		const glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+		const glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+
 		shaderProgram->Use();
 		va->Bind();
+
+		shaderProgram->SetVec3f("light.ambient", ambientColor);
+		shaderProgram->SetVec3f("light.diffuse", diffuseColor);
 
 		glm::mat4 model(1.0f);
 
@@ -223,6 +240,8 @@ namespace Applications
 
 		lightShaderProgram->Use();
 		lightVa->Bind();
+
+		lightShaderProgram->SetVec3f("lightColor", lightColor);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, lightPos);
