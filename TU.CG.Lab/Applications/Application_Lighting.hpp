@@ -25,6 +25,8 @@ namespace Applications
 		std::unique_ptr<Graphics::VertexArray> va;
 		std::unique_ptr<Graphics::VertexArray> lightVa;
 
+		std::unique_ptr<Graphics::Texture> cubeDiffuseMap, cubeSpecularMap;
+
 		glm::vec3 lightPos;
 
 		void Initialize();

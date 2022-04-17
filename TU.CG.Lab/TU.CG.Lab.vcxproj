@@ -223,6 +223,8 @@
   <ItemGroup>
     <Image Include="Content\Textures\awesomeface.png" />
     <Image Include="Content\Textures\container.jpg" />
+    <Image Include="Content\Textures\container2_diffuse.png" />
+    <Image Include="Content\Textures\container2_specular.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

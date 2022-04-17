@@ -135,5 +135,11 @@
     <Image Include="Content\Textures\awesomeface.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Content\Textures\container2_diffuse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Content\Textures\container2_specular.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
