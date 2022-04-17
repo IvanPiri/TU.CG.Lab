@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "../Application.hpp"
+#include "../Applications/IApplication.hpp"
 
 namespace Utils
 {
@@ -63,7 +63,7 @@ namespace Utils
 		glfwPollEvents();
 	}
 
-	void Window::ActivateInputFor(Application* app) const
+	void Window::ActivateInputFor(Applications::IApplication* app) const
 	{
 		glfwSetWindowUserPointer(window, app);
 
@@ -112,7 +112,7 @@ namespace Utils
 		if (userDataPointer == nullptr)
 			throw std::exception(GetUserPointerNullErrorMessage());
 
-		const auto app = static_cast<Application*>(userDataPointer);
+		const auto app = static_cast<Applications::IApplication*>(userDataPointer);
 		const auto ourKey = static_cast<Input::Keys>(key);
 
 		switch (action)
@@ -143,7 +143,7 @@ namespace Utils
 		if (userDataPointer == nullptr)
 			throw std::exception(GetUserPointerNullErrorMessage());
 
-		const auto app = static_cast<Application*>(userDataPointer);
+		const auto app = static_cast<Applications::IApplication*>(userDataPointer);
 		const auto ourButton = static_cast<Input::MouseButtons>(button);
 
 		switch (action)
@@ -174,7 +174,7 @@ namespace Utils
 		if (userDataPointer == nullptr)
 			throw std::exception(GetUserPointerNullErrorMessage());
 
-		const auto app = static_cast<Application*>(userDataPointer);
+		const auto app = static_cast<Applications::IApplication*>(userDataPointer);
 
 		app->GetInputManager().SetMousePosition(glm::vec2(x, y));
 	}
@@ -186,7 +186,7 @@ namespace Utils
 		if (userDataPointer == nullptr)
 			throw std::exception(GetUserPointerNullErrorMessage());
 
-		const auto app = static_cast<Application*>(userDataPointer);
+		const auto app = static_cast<Applications::IApplication*>(userDataPointer);
 
 		app->GetInputManager().Scroll(static_cast<float>(y));
 	}

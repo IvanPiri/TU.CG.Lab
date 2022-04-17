@@ -24,7 +24,7 @@
     <ClCompile Include="Utils\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Application.cpp">
+    <ClCompile Include="Applications\Application_GettingStarted.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Input\InputManager.cpp">
@@ -63,12 +63,15 @@
     <ClCompile Include="Utils\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Applications\Application_Lighting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Application.hpp">
+    <ClInclude Include="Applications\Application_GettingStarted.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Input\Keys.hpp">
@@ -110,16 +113,32 @@
     <ClInclude Include="Utils\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Applications\IApplication.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Applications\Application_Lighting.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Shaders\getting_started.vert" />
     <None Include="Content\Shaders\getting_started.frag" />
+    <None Include="Content\Shaders\light_source.vert" />
+    <None Include="Content\Shaders\light_source.frag" />
+    <None Include="Content\Shaders\lighting.vert" />
+    <None Include="Content\Shaders\lighting.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Content\Textures\container.jpg">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Content\Textures\awesomeface.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Content\Textures\container2_diffuse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Content\Textures\container2_specular.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

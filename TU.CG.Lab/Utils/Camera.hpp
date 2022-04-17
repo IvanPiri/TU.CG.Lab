@@ -8,6 +8,8 @@ namespace Utils
 {
 	class Camera
 	{
+	private:
+		glm::vec2 previousCursorPos;
 	public:
 		glm::vec3 position;
 		glm::vec3 front;

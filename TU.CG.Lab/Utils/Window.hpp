@@ -2,7 +2,11 @@
 
 #include <glm/glm.hpp>
 
-class Application;
+namespace Applications
+{
+	class IApplication;
+}
+
 struct GLFWwindow;
 
 namespace Utils
@@ -33,7 +37,7 @@ namespace Utils
 
 		void SwapBuffers() const;
 		void PollEvents();
-		void ActivateInputFor(Application* app) const;
+		void ActivateInputFor(Applications::IApplication* app) const;
 
 		[[nodiscard]] bool GetShouldClose() const;
 		void SetShouldClose(bool value) const;

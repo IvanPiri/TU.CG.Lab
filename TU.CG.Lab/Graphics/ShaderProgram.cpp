@@ -101,6 +101,12 @@ namespace Graphics
 		glUniform1f(uniformLocation, value);
 	}
 
+	void ShaderProgram::SetVec2f(const std::string& name, const glm::vec2 value) const
+	{
+		const int uniformLocation = GetUniformLocation(name);
+		glUniform2f(uniformLocation, value.x, value.y);
+	}
+
 	void ShaderProgram::SetVec3f(const std::string& name, const glm::vec3 value) const
 	{
 		const int uniformLocation = GetUniformLocation(name);
@@ -111,6 +117,12 @@ namespace Graphics
 	{
 		const int uniformLocation = GetUniformLocation(name);
 		glUniform4f(uniformLocation, value.x, value.y, value.z, value.w);
+	}
+
+	void ShaderProgram::SetMat3f(const std::string& name, const glm::mat3 value) const
+	{
+		const int uniformLocation = GetUniformLocation(name);
+		glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 	}
 
 	void ShaderProgram::SetMat4f(const std::string& name, const glm::mat4 value) const

@@ -6,10 +6,10 @@
 namespace Utils
 {
 	Camera::Camera(const glm::vec3 position, const glm::vec3 worldUp, const float maxZoom)
-		: position(position), front(0.0f, 0.0f, -1.0f), up(0.0f), right(0.0f),
-		worldUp(worldUp), yaw(-90.0f), pitch(0.0f), movementSpeed(2.5f),
-		mouseSensitivity(0.1f), zoom(maxZoom), maxZoom(maxZoom),
-		isUserControlEnabled(true)
+		: previousCursorPos(0.0f), position(position), front(0.0f, 0.0f, -1.0f),
+		  up(0.0f), right(0.0f), worldUp(worldUp), yaw(-90.0f), pitch(0.0f),
+		  movementSpeed(2.5f), mouseSensitivity(0.1f), zoom(maxZoom), maxZoom(maxZoom),
+		  isUserControlEnabled(true)
 	{
 	}
 
@@ -37,13 +37,9 @@ namespace Utils
 
 		const glm::vec2 currentCursorPos = inputManager.GetCursorPosition();
 
-		static float lastX = 0.0f;
-		static float lastY = 0.0f;
-
-		float xOffset = currentCursorPos.x - lastX;
-		float yOffset = lastY - currentCursorPos.y;
-		lastX = currentCursorPos.x;
-		lastY = currentCursorPos.y;
+		float xOffset = currentCursorPos.x - previousCursorPos.x;
+		float yOffset = previousCursorPos.y - currentCursorPos.y;
+		previousCursorPos = currentCursorPos;
 
 		xOffset *= mouseSensitivity;
 		yOffset *= mouseSensitivity;
