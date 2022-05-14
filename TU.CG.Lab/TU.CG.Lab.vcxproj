@@ -109,11 +109,14 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(ProjectDir)Content\" "$(OutDir)Content\" /e /y /i</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)deps\dll\" "$(OutDir)" /e /y /i</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -130,11 +133,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(ProjectDir)Content\" "$(OutDir)Content\" /e /y /i</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)deps\dll\" "$(OutDir)" /e /y /i</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -147,11 +153,14 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(ProjectDir)Content\" "$(OutDir)Content\" /e /y /i</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)deps\dll\" "$(OutDir)" /e /y /i</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -168,17 +177,24 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(ProjectDir)Content\" "$(OutDir)Content\" /e /y /i</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)deps\dll\" "$(OutDir)" /e /y /i</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\src\glad.c" />
     <ClCompile Include="..\deps\src\stb_image.cpp" />
     <ClCompile Include="Applications\Application_GettingStarted.cpp" />
     <ClCompile Include="Applications\Application_Lighting.cpp" />
+    <ClCompile Include="Applications\Application_ModelLoading.cpp" />
+    <ClCompile Include="Graphics\Mesh.cpp" />
+    <ClCompile Include="Graphics\Model.cpp" />
+    <ClCompile Include="Graphics\ModelLoader.cpp" />
     <ClCompile Include="Utils\Camera.cpp" />
     <ClCompile Include="Graphics\TextureCache.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
@@ -197,6 +213,10 @@
     <ClInclude Include="Applications\Application_GettingStarted.hpp" />
     <ClInclude Include="Applications\IApplication.hpp" />
     <ClInclude Include="Applications\Application_Lighting.hpp" />
+    <ClInclude Include="Applications\Application_ModelLoading.hpp" />
+    <ClInclude Include="Graphics\Mesh.hpp" />
+    <ClInclude Include="Graphics\Model.hpp" />
+    <ClInclude Include="Graphics\ModelLoader.hpp" />
     <ClInclude Include="Utils\Camera.hpp" />
     <ClInclude Include="Graphics\TextureCache.hpp" />
     <ClInclude Include="Graphics\Texture.hpp" />
@@ -213,6 +233,8 @@
     <ClInclude Include="Graphics\VertexArray.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Models\backpack\backpack.model" />
+    <None Include="Content\Models\backpack\backpack.mtl" />
     <None Include="Content\Shaders\getting_started.frag" />
     <None Include="Content\Shaders\getting_started.vert" />
     <None Include="Content\Shaders\lighting.frag" />
@@ -221,10 +243,18 @@
     <None Include="Content\Shaders\light_source.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Content\Models\backpack\ao.jpg" />
+    <Image Include="Content\Models\backpack\diffuse.jpg" />
+    <Image Include="Content\Models\backpack\normal.png" />
+    <Image Include="Content\Models\backpack\roughness.jpg" />
+    <Image Include="Content\Models\backpack\specular.jpg" />
     <Image Include="Content\Textures\awesomeface.png" />
     <Image Include="Content\Textures\container.jpg" />
     <Image Include="Content\Textures\container2_diffuse.png" />
     <Image Include="Content\Textures\container2_specular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Content\Models\backpack\source_attribution.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

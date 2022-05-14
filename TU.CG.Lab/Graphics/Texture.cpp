@@ -4,8 +4,11 @@
 
 namespace Graphics
 {
-	Texture::Texture(const unsigned id, const int width, const int height, std::string name)
-		: id(id), width(width), height(height), name(std::move(name))
+	Texture::Texture(
+		const unsigned id, const unsigned width, const unsigned height,
+		std::string filePath, std::string fileNameWithoutExt)
+		: id(id), width(width), height(height), filePath(std::move(filePath)),
+		fileNameWithoutExtension(std::move(fileNameWithoutExt))
 	{
 	}
 
