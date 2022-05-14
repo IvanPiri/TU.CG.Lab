@@ -66,6 +66,18 @@
     <ClCompile Include="Applications\Application_Lighting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Applications\Application_ModelLoading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\Window.hpp">
@@ -119,6 +131,18 @@
     <ClInclude Include="Applications\Application_Lighting.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Applications\Application_ModelLoading.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Mesh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Model.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ModelLoader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Shaders\getting_started.vert" />
@@ -127,6 +151,8 @@
     <None Include="Content\Shaders\light_source.frag" />
     <None Include="Content\Shaders\lighting.vert" />
     <None Include="Content\Shaders\lighting.frag" />
+    <None Include="Content\Models\backpack\backpack.model" />
+    <None Include="Content\Models\backpack\backpack.mtl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Content\Textures\container.jpg">
@@ -141,5 +167,23 @@
     <Image Include="Content\Textures\container2_specular.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Content\Models\backpack\specular.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Content\Models\backpack\ao.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Content\Models\backpack\diffuse.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Content\Models\backpack\normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Content\Models\backpack\roughness.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Content\Models\backpack\source_attribution.txt" />
   </ItemGroup>
 </Project>

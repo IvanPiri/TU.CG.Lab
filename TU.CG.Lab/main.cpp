@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "Applications/Application_Lighting.hpp"
+#include "Applications/Application_ModelLoading.hpp"
 
 int main(int argc, char** argv)
 {
 	try
 	{
-		Applications::Application_Lighting app;
+		Applications::Application_ModelLoading app;
 
 		app.Run();
 

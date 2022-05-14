@@ -1,7 +1,8 @@
 #include "TextureCache.hpp"
 
-#include <iostream>
 #include <glad/glad.h>
+#include <filesystem>
+#include <iostream>
 #include <stb/stb_image.h>
 
 namespace Graphics
@@ -43,21 +44,22 @@ namespace Graphics
 
 			textureMap.emplace(filePath, newTexture);
 
-			std::cout << "Loaded texture with name = { " << filePath << " }" << std::endl;
+			std::cout << "Loaded texture with file path = { " << filePath << " }" << std::endl;
+
 			return newTexture;
 		}
 
-		std::cout << "Used cached texture with name = { " << filePath << " }" << std::endl;
+		std::cout << "Used cached texture with file path = { " << filePath << " }" << std::endl;
 		return umit->second;
 	}
 
 	void TextureCache::DeleteTexture(Texture& texture)
 	{
-		const auto umit = textureMap.find(texture.name);
+		const auto umit = textureMap.find(texture.filePath);
 
 		if (umit == textureMap.end())
 		{
-			const std::string errorMessage = "Texture with name = { " + texture.name +
+			const std::string errorMessage = "Texture with file path = { " + texture.filePath +
 				" } was not deleted because it is not part of this TextureCache.";
 
 			throw std::exception(errorMessage.c_str());
@@ -69,7 +71,10 @@ namespace Graphics
 		texture.id = 0;
 		texture.width = 0;
 		texture.height = 0;
-		texture.name = "";
+		texture.filePath = "";
+		texture.fileNameWithoutExtension = "";
+
+		std::cout << "Deleted cached texture with file path = { " << texture.filePath << " }" << std::endl;
 	}
 
 	void TextureCache::Clear()
@@ -85,19 +90,20 @@ namespace Graphics
 		unsigned textureId;
 		int width, height, channels;
 
-		glGenTextures(1, &textureId);
-		glBindTexture(GL_TEXTURE_2D, textureId);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 		unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &channels, 0);
+		const std::string fileNameWithoutExtension = std::filesystem::path(filePath).stem().string();
 
 		if (data)
 		{
+			glGenTextures(1, &textureId);
+			glBindTexture(GL_TEXTURE_2D, textureId);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 			int format = GL_RGB;
 
 			if (channels == 1)
@@ -118,10 +124,10 @@ namespace Graphics
 			glBindTexture(GL_TEXTURE_2D, 0);
 			stbi_image_free(data);
 
-			const std::string errorMessage = "Failed to load texture with name = { " + filePath + " }";
+			const std::string errorMessage = "Failed to load texture with file path = { " + filePath + " }";
 			throw std::exception(errorMessage.c_str());
 		}
 
-		return Texture(textureId, width, height, filePath);
+		return Texture(textureId, width, height, filePath, fileNameWithoutExtension);
 	}
 }
